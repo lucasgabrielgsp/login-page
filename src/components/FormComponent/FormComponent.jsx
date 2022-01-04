@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   Button,
   FormControl,
@@ -17,11 +18,18 @@ const initialFieldData = {
   password: "",
 };
 
+const initialErrors = {
+  email: false,
+  password: false,
+};
+
 function FormComponent(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [fieldData, setFieldData] = useState(initialFieldData);
+  const [errors, setErrors] = useState(initialErrors);
 
   const handleFieldData = (e) => {
+    setErrors(initialErrors);
     setFieldData({
       ...fieldData,
       [e.target.name]: e.target.value.trim(),
@@ -29,16 +37,37 @@ function FormComponent(props) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     const { email, password } = fieldData;
-    try {
-      await props.loginRequest({
-        email: email,
-        password: password,
-      });
-      setFieldData(initialFieldData);
-    } catch (error) {
-      console.log(error);
+    if (email.length && password.length) {
+      try {
+        await props.loginRequest({
+          email: email,
+          password: password,
+        });
+        setFieldData(initialFieldData);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      if(email.length === 0){
+        setErrors({
+          ...errors,
+          email: true
+        });
+      }
+      if(password.length === 0){
+        setErrors({
+          ...errors,
+          password: true,
+        });
+      }
+      if(email.length === 0 && password.length === 0){
+        setErrors({
+          ...errors,
+          email:true,
+          password: true,
+        });
+      }
     }
   };
   const handleClickShowPassword = () => {
@@ -53,7 +82,7 @@ function FormComponent(props) {
     <div className="login">
       <p>Faça seu login</p>
       <div className="login__boxform">
-        <FormControl variant="filled">
+        <FormControl variant="filled" required error={errors.email}>
           <InputLabel>E-mail</InputLabel>
           <FilledInput
             id="filled-basic"
@@ -61,9 +90,10 @@ function FormComponent(props) {
             type="text"
             value={fieldData.email}
             onChange={handleFieldData}
+            required
           />
         </FormControl>
-        <FormControl variant="filled">
+        <FormControl variant="filled" required error={errors.password}>
           <InputLabel>Password</InputLabel>
           <FilledInput
             id="filled-basic__password"
@@ -71,6 +101,7 @@ function FormComponent(props) {
             type={showPassword ? "text" : "password"}
             value={fieldData.password}
             onChange={handleFieldData}
+            required
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -85,7 +116,12 @@ function FormComponent(props) {
           />
         </FormControl>
       </div>
-      <Button variant="outlined" className="login__btn" onClick={handleSubmit}>
+      <Button
+        variant="outlined"
+        className="login__btn"
+        onClick={handleSubmit}
+        disabled={errors.email || errors.password ? true : false}
+      >
         ENTRAR
       </Button>
     </div>
