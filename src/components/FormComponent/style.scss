@@ -1,0 +1,67 @@
+.login {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+    height: 310px;
+    &__boxform {
+        display: flex;
+        height: 140px;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    #filled-basic {
+        width: 270px !important;
+    }
+    #filled-basic__password {
+        width: 270px !important;
+    }
+
+    p {
+        color: #555555;
+        font-size: 18px;
+        margin: 0;
+    }
+    &__btn {
+        width: 240px !important;
+        height: 40px;
+        color: #95cbc2 !important;
+        border: #95cbc2 1px solid !important;
+        span {
+            font-weight: bold;
+        }
+    }
+}
+
+@media (min-width: 100px) and (max-width: 816px) {
+    .login {
+        p {
+            display: none;
+        }
+        height: 260px;
+    }
+}
+
+@media (min-width: 100px) and (max-width: 428px) {
+    .login {
+        #filled-basic {
+            width: 240px !important;
+        }
+        #filled-basic__password {
+            width: 240px !important;
+        }
+    }
+}
+
+@media (min-width: 100px) and (max-width: 371px) {
+    .login {
+        #filled-basic {
+            width: 190px !important;
+        }
+        #filled-basic__password {
+            width: 190px !important;
+        }
+    }
+}
+
