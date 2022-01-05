@@ -6,7 +6,7 @@ const defaultState = {
 
 const appStateReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case actionConstants.UPDATE_AUTHENTICATION:
+    case actionConstants.SHOW_USER_DATA:
       return {
         ...state,
         userData: action.payload.user,
